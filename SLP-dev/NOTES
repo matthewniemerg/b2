@@ -1,0 +1,49 @@
+Pretty much keep everything as is except how the SLP / n-ary tree evaluates double
+
+swap out double for bertini::complex -- or some such class
+
+Also, in MultiplicationOp and AdditionOp, do not do *= and += respectively, but send mults / additions to different threads and build up, i.e. parallelize!
+
+Similarly, if ExpOp is being evaluated to an integer other than 2, this can also be done better, i.e. (symb)^9 = (symb)^8*symb ------ note that this requires symb^8 = (((symb^2)^2)^2), i.e. 3 multiplications that are sequential (+ 1 for *symb to make it ^9), i.e. not parallelized, but (symb^3)^2 is (symb*(symb)^2)^2, which is 3 multiplications
+
+so ... exponentiation itself can be parallelized in terms of the squares
+
+let e = exponent, then let e2 = floor(e^.5)
+
+then let m = e - e2^2, and so (symb^(e2^2)*symb^m)
+
+and repeat
+
+example
+
+782, then e2 = 27 (i.e. 27^2 = 729),
+
+782 - 27^2 = 53
+
+53 - 7^2 = 4 = 2^2
+
+
+so,
+
+symb^782 = 729 + 49 + 4
+
+
+27^2 = (3^3)^2 --- 
+
+symb^(27^2) = (((symb^3)^3)^3)^2
+
+symb - 0
+symb^2 - 1
+symb^3 = symb*symb^2 - 2
+symb^4 = (symb^2)^2 - 2
+symb^5 = (symb^4)*symb - 3
+symb^6 = symb^4*symb^2 - 4 --- if stored in an SLP, i.e. symb^2 stored once and then cubed
+symb^6 - 4 mults as is, but can be done as symb^2, then cubing symb^2, as is, symb^4 = 2, symb^2 = 1, so symb^4*symb^2 = 2 + 1 + 1 = 4
+
+but could do s2 = symb^2 -- 1, and then s2^3 -- 2, and so a total of 3 (more memory to store, but trivial)
+
+
+
+
+
+

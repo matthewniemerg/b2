@@ -1,0 +1,26 @@
+The files in the AMP and ComplexAMP classes
+
+include/amp.hpp                                 % AMP class header file
+include/complex_amp.hpp                         % ComplexAMP class header file
+
+
+
+
+src/Makefile                                    % Makefile -- Note: change location of gcc / g++ compiler
+src/amp.cpp                                     % AMP class implementation file
+src/complex_amp.cpp                             % ComplexAMP class implementation file
+src/compare_amp_python.py                       %python script to compare AMP arithmetic operations to mpmath module
+src/compare_complex_amp_python2.py              % python script to compare ComplexAMP arithmetic operations to mpmath module
+src/test_amp.cpp                                % the amp test driver
+src/test_complex_amp.cpp                        % the complex amp test driver
+src/test_mpfr.cpp                               % some testing of the mpfr library, not necessary unless you aren't familiar with it, basically used to test the '' << '' overloaded function for mpfr_t objects
+src/rounding_issues.cpp                         % rounding concerns when using mpfr_set_d
+src/test_amp_rounding.cpp                       % basically used to try to determine the rounding issue when switching from hardware to multiprecision
+
+
+Files produced:
+
+src/results_amp                                 % from test_amp -- output the evaluations of the various arithmetic operaitons
+src/results_complex_amp                         % from test_complex_amp -- put the evaluations of the various arithmetic operations
+src/python_results_amp                          % from running `python compare_amp_python.py > python_results_amp' -- compare line by line against results_amp
+src/python_results_complex_amp                  % from running `python compare_complex_amp.py > python_results_complex_amp' -- compare line by line against results_complex_amp
